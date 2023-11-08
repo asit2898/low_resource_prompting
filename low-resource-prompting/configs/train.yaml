@@ -1,0 +1,5 @@
+seed : 1000
+
+defaults:
+  - _self_
+  - data: data/dataloader.yaml
