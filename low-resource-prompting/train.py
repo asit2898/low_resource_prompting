@@ -10,6 +10,7 @@ def train(cfg: DictConfig) -> None:
         pl.seed_everything(cfg.seed)
 
     # set up data module
+    print(f"instantiating {cfg.data._target_}")
     data_module = hydra.utils.instantiate(cfg.data)
 
 

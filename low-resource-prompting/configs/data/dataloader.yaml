@@ -1,4 +1,4 @@
-__target_: "low-resource-prompting/data/mnli_dataloader.py"
+_target_: data.mnli_dataloader.MNLIDataModule
 
 train_batch_size: 32
 val_batch_size: 32
