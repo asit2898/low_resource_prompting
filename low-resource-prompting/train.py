@@ -13,6 +13,17 @@ def train(cfg: DictConfig) -> None:
     print(f"instantiating {cfg.data._target_}")
     data_module = hydra.utils.instantiate(cfg.data)
 
+    # set up model
+    print(f"instantiating {cfg.model._target_}")
+    model = hydra.utils.instantiate(cfg.model)
+
+    # set up trainer
+    print(f"instantiating {cfg.trainer._target_}")
+    trainer = hydra.utils.instantiate(cfg.trainer)
+
+    # train model
+    trainer.fit(model, data_module)
+
 
 if __name__ == "__main__":
     train()
