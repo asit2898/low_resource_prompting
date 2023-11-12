@@ -1,9 +1,8 @@
 [tool.poetry]
-name = "low-resource-prompting"
+name = "low_resource_prompting"
 version = "0.1.0"
 description = ""
 authors = ["Asit"]
-readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
