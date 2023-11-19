@@ -1,15 +1,14 @@
 import lightning as pl
-
+from transformers import AutoModelForSequenceClassification
+import torch.nn as nn
 
 class BertTrainingModule(pl.LightningModule):
-    def __init__(self, model, tokenizer, args):
+    def __init__(self, model):
         super().__init__()
-        self.model = model
-        self.tokenizer = tokenizer
-        self.args = args
+        self.model = AutoModelForSequenceClassification.from_pretrained("bert-base-cased", num_labels=5)
 
-    def forward(self, batch):
-        return self.model(**batch)
+    def forward(self, x):
+        return self.model(**x)
 
     def training_step(self, batch, batch_idx):
         outputs = self(batch)
@@ -23,6 +22,12 @@ class BertTrainingModule(pl.LightningModule):
             logger=True,
         )
         return loss
+    def model_step(self,batch):
+        x = batch[0]
+        y = batch[1]
+        logits = self.forward(x)
+        loss_fn = nn.CrossEntropyLoss()
+        return
 
     def validation_step(self, batch, batch_idx):
         outputs = self(batch)
