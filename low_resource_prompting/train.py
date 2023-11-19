@@ -11,7 +11,7 @@ def train(cfg: DictConfig) -> None:
 
     # set up data module
     print(f"instantiating {cfg.data._target_}")
-    data_module = hydra.utils.instantiate(cfg.data)
+    data_module = hydra.utils.instantiate(cfg.data) #intaiate creates an object
 
     # set up model
     print(f"instantiating {cfg.model._target_}")
