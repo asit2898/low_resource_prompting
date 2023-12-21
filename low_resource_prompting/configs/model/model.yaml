@@ -1,6 +1,3 @@
 _target_: model.bert.BertTrainingModule
-
-train_batch_size: 32
-val_batch_size: 32
-
-model:
+n_classes: 3
+lr: 0.001
