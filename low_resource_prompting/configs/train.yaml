@@ -4,3 +4,4 @@ defaults:
   - _self_
   - data: dataloader.yaml
   - model: model.yaml
+  - trainer: trainer.yaml

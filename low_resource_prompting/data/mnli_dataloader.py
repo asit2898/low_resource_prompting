@@ -37,9 +37,9 @@ class MNLIDataModule(pl.LightningDataModule):
         dataset = load_dataset("glue", "mnli")
 
         # TODO make sure we dont need mismatched evaluation
-        self.train_dataset = dataset["train"]
-        self.val_dataset = dataset["validation_matched"]
-        self.test_dataset = dataset["test_matched"]
+        self.train_dataset = dataset["train"][:320]
+        self.val_dataset = dataset["validation_matched"][:64]
+        self.test_dataset = dataset["test_matched"][:32]
 
         self.tokenizer = AutoTokenizer.from_pretrained("bert-base-cased")
 

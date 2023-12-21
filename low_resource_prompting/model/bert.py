@@ -22,28 +22,32 @@ class BertTrainingModule(pl.LightningModule):
         self.val_acc = Accuracy(task="multiclass", num_classes=self.n_classes)
 
     def forward(self, x):
-        return self.model(**x)
+        return self.model(
+            input_ids=x["input_ids"],
+            attention_mask=x["attention_mask"],
+            token_type_ids=x["token_type_ids"],
+        )
 
     def model_step(self, batch):
         x = {
-            "ids": batch["ids"],
-            "mask": batch["mask"],
+            "input_ids": batch["input_ids"],
+            "attention_mask": batch["attention_mask"],
             "token_type_ids": batch["token_type_ids"],
         }
-        y = batch["labels"]
-        logits = self.forward(x)
+        y = batch["label"]
+        logits = self.forward(x).logits
         loss = self.loss_fn(logits, y)
         preds = torch.argmax(logits, axis=1)
 
         return {"preds": preds, "logits": logits, "loss": loss}
 
     def training_step(self, batch, batch_idx):
-        outputs = self(batch)
+        outputs = self.model_step(batch)
 
         loss = outputs["loss"]
         preds = outputs["preds"]
 
-        self.train_acc(preds, batch["labels"])
+        self.train_acc(preds, batch["label"])
 
         self.log(
             "train_acc",
@@ -65,12 +69,12 @@ class BertTrainingModule(pl.LightningModule):
         return loss
 
     def validation_step(self, batch, batch_idx):
-        outputs = self(batch)
+        outputs = self.model_step(batch)
 
         loss = outputs["loss"]
         preds = outputs["preds"]
 
-        self.val_acc(preds, batch["labels"])
+        self.val_acc(preds, batch["label"])
 
         self.log(
             "val_acc",
